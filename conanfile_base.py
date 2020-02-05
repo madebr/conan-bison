@@ -91,6 +91,11 @@ class ConanFileBase(ConanFile):
                               "@bindir@",
                               "${}_ROOT/bin".format(self.name.upper()))
 
+        # Debug m4
+        tools.replace_in_file(os.path.join(self._source_subfolder, "src", "getargs.c"),
+                              "int trace_flag = trace_none;",
+                              "int trace_flag = trace_m4;")
+
         with self._build_context():
             autotools = self._configure_autotools()
             autotools.make()
